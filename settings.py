@@ -1,4 +1,4 @@
-from os import getcwd, getenv
+from os import getcwd
 from os.path import join
 
 API_KEY = '898f7eab63db25a204def0d3708f8753'
