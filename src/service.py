@@ -38,7 +38,6 @@ def adapt_response_to_weather(dict_response: dict[str, Any]) -> Weather:
     Returns:
         dict с актуальной погодой.
     """
-
     info_about_weather_from_json = Weather(time=adapt_response_time_to_local_time(dict_response),
                                            place=dict_response['name'],
                                            weather=dict_response['weather'][0]['description'],
@@ -50,29 +49,33 @@ def adapt_response_to_weather(dict_response: dict[str, Any]) -> Weather:
 
 
 def action_weather_by_myself() -> None:
+    """ Функция из action map, выполняющая команду №1. """
     city = get_city_by_ip()
     get_weather_from_city(city)
 
 
 def action_weather_by_city() -> None:
+    """ Функция из action map, выполняющая команду №2. """
     city = input(SELECT_CITY).strip()
     get_weather_from_city(city)
 
 
 def get_weather_from_city(city) -> None:
+    """ Функция возвращает погодные условия по названию города.
+    Args:
+        city: str с названием города.
+    """
     request_weather_from_city = get_request_weather_from_city(city)
 
     if check_request_status(request_weather_from_city.status_code):
-
         weather_in_city = adapt_response_to_weather(request_weather_from_city.json())
-
         print_current_weather(weather_in_city.info_to_dict())
-        # print(weather_in_city)
         save_current_weather_to_history(weather_in_city.info_to_dict())
 
 
 @decorator_exceptions
 def show_history_requests() -> None:
+    """ Функция возвращает словарь с данными об актуальной погоде, получая информацию из необработанного словаря."""
     num_requests = float(input(SELECT_NUM_REQUESTS).strip())
 
     if num_requests < 0:

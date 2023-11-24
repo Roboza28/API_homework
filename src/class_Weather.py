@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
 import datetime
+from typing import Any
 
 
 @dataclass
@@ -21,7 +22,12 @@ class Weather:
     feels_like_temperature: int
     wind_speed: int
 
-    def info_to_dict(self):
+    def info_to_dict(self) -> dict[str, Any]:
+        """
+        Метод позволяющий перевести пользвательский тип данных Weather в словарь
+        Returns:
+            dict c информацией о погоде
+        """
         report = {'Текущее время': self.time,
                   'Название города': self.place,
                   'Погодные условия': self.weather,
@@ -29,20 +35,3 @@ class Weather:
                   'Ощущается как': self.feels_like_temperature,
                   'Скорость ветра': self.wind_speed}
         return report
-
-    # def __str__(self) -> str:
-    #     """
-    #     Генерирует отчет для пользователя о погоде,
-    #     основываясь на записанных в поля сведениях
-    #     """
-    #
-    #     report = f"Текущее время: {self.time}\n" \
-    #              f"Название города: {self.place}\n" \
-    #              f"Погодные условия: {self.weather}\n" \
-    #              f"Текущая температура: {self.real_temperature} градусов по цельсию\n" \
-    #              f"Ощущается как: {self.feels_like_temperature} градусов по цельсию\n" \
-    #              f"Скорость ветра: {self.wind_speed} м/c"
-    #     return report
-
-    # def to_dict(self):
-    #     return dataclasses.asdict(self)
