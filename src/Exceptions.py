@@ -33,14 +33,14 @@ def decorator_exceptions(func):
         try:
             result_func = func(*args, **kwargs)
 
-        except (WrongRequestError, WrongLenListError, WrongNumSignError) as error1:
-            print(f'\nОШИБКА. {error1}')
+        except (WrongRequestError, WrongLenListError, WrongNumSignError) as custom_err:
+            print(f'\nОШИБКА. {custom_err}')
 
-        except ConnectionError as error2:
-            print(f'\nОШИБКА. {error2}')
+        except ConnectionError as connect_err:
+            print(f'\nОШИБКА. {connect_err}')
 
-        except RequestException as error3:
-            print(f'\nОШИБКА. Некорректная работа запроса. Код ошибки {error3}')
+        except RequestException as req_err:
+            print(f'\nОШИБКА. Некорректная работа запроса. Код ошибки {req_err}')
 
         except EmptyDataError:
             print(f'\nИстория пуста. Сделайте запрос и повторите команду.')
@@ -60,8 +60,8 @@ def decorator_exceptions(func):
         except WrongLoopBreak:
             pass
 
-        except Exception as error5:
-            print(f'\nОШИБКА. {error5}\nПожалуйста, попробуйте еще раз.')
+        except Exception as exception:
+            print(f'\nОШИБКА. {exception}\nПожалуйста, попробуйте еще раз.')
 
         else:
             return result_func
