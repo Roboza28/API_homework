@@ -7,12 +7,12 @@ def print_current_weather(current_weather_information: dict) -> None:
     Args:
         current_weather_information: словарь с данными о погоде.
     """
-    print(f"\nТекущее время: {current_weather_information['time']}")
-    print(f"Название города: {current_weather_information['place']}")
-    print(f"Погодные условия: {current_weather_information['weather']}")
-    print(f"Текущая температура: {int(current_weather_information['real_temperature'])} градусов по цельсию")
-    print(f"Ощущается как: {int(current_weather_information['feels_like_temperature'])} градусов по цельсию")
-    print(f"Cкорость ветра: {int(current_weather_information['wind_speed'])} м/c")
+    print(f"\nТекущее время: {current_weather_information.get('time')}")
+    print(f"Название города: {current_weather_information.get('place')}")
+    print(f"Погодные условия: {current_weather_information.get('weather')}")
+    print(f"Текущая температура: {int(current_weather_information.get('real_temperature'))} градусов по цельсию")
+    print(f"Ощущается как: {int(current_weather_information.get('feels_like_temperature'))} градусов по цельсию")
+    print(f"Cкорость ветра: {int(current_weather_information.get('wind_speed'))} м/c")
 
 
 def print_history_to_console(view_num_requests: int) -> None:
