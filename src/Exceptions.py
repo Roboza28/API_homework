@@ -48,6 +48,9 @@ def decorator_exceptions(func):
         except JSONDecodeError:
             print('\nОШИБКА. Невозможно декодировать полученный ответ, повторите запрос.')
 
+        except ValueError:
+            print('\nОШИБКА. Не удалось преобразовать строку в число. Введите целое неотрицательное число.')
+
         except FileNotFoundError:
             print('\nОШИБКА. Данный файл или каталог отсутствует. Сделайте запрос и повторите команду.')
 
@@ -60,8 +63,8 @@ def decorator_exceptions(func):
         except WrongLoopBreak:
             pass
 
-        except Exception as exception:
-            print(f'\nОШИБКА. {exception}\nПожалуйста, попробуйте еще раз.')
+        # except Exception as exception:
+        #     print(f'\nОШИБКА. {exception}\nПожалуйста, попробуйте еще раз.')
 
         else:
             return result_func

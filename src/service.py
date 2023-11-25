@@ -6,8 +6,12 @@ from src.API import get_request_weather_from_city, get_city_by_ip, check_request
 from src.Exceptions import decorator_exceptions, WrongNumSignError
 from src.interface import print_current_weather, print_history_to_console
 from src.file_management import save_current_weather_to_history, create_or_clear_csv_file
-from src.msg_for_user import SELECT_CITY, TEXT_FOR_NUM_ERROR, TEXT_FOR_SIGN_ERROR, SELECT_NUM_REQUESTS
 from src.class_Weather import Weather
+from src.msg_for_user import (SELECT_CITY,
+                              TEXT_FOR_INT_ERROR,
+                              TEXT_FOR_SIGN_ERROR,
+                              SELECT_NUM_REQUESTS,
+                              TEXT_FOR_ZERO_ERROR)
 
 
 class Commands(Enum):
@@ -78,11 +82,17 @@ def show_history_requests() -> None:
     """ Функция возвращает словарь с данными об актуальной погоде, получая информацию из необработанного словаря."""
     num_requests = float(input(SELECT_NUM_REQUESTS).strip())
 
-    if num_requests < 0:
-        raise WrongNumSignError(TEXT_FOR_SIGN_ERROR)
+    if num_requests <= 0:
+        if num_requests < 0:
+            raise WrongNumSignError(TEXT_FOR_SIGN_ERROR)
+        else:
+            print(TEXT_FOR_ZERO_ERROR)
 
     if not num_requests.is_integer():
-        raise WrongNumSignError(TEXT_FOR_NUM_ERROR)
+        raise WrongNumSignError(TEXT_FOR_INT_ERROR)
+
+    if not num_requests.is_integer():
+        raise WrongNumSignError(TEXT_FOR_INT_ERROR)
 
     print_history_to_console(int(num_requests))
 
