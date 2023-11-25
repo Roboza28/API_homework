@@ -73,8 +73,10 @@ def get_weather_from_city(city) -> None:
 
     if check_request_status(request_weather_from_city.status_code):
         weather_in_city = adapt_response_to_weather(request_weather_from_city.json())
-        print_current_weather(weather_in_city.info_to_dict())
-        save_current_weather_to_history(weather_in_city.info_to_dict())
+        # print_current_weather(weather_in_city.info_to_dict())
+        # save_current_weather_to_history(weather_in_city.info_to_dict())
+        print_current_weather(weather_in_city.to_dict())
+        save_current_weather_to_history(weather_in_city.to_dict())
 
 
 @decorator_exceptions

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import dataclasses
 from dataclasses import dataclass
 import datetime
 from typing import Any
@@ -35,3 +36,6 @@ class Weather:
                   'Ощущается как': self.feels_like_temperature,
                   'Скорость ветра': self.wind_speed}
         return report
+
+    def to_dict(self):
+        return dataclasses.asdict(self)
