@@ -63,8 +63,8 @@ def decorator_exceptions(func):
         except WrongLoopBreak:
             pass
 
-        # except Exception as exception:
-        #     print(f'\nОШИБКА. {exception}\nПожалуйста, попробуйте еще раз.')
+        except Exception as exception:
+            print(f'\nОШИБКА. {exception}\nПожалуйста, попробуйте еще раз.')
 
         else:
             return result_func
