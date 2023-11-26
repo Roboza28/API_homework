@@ -23,7 +23,7 @@ class WrongLenListError(Error):
     pass
 
 
-class WrongLoopBreak(Error):
+class WrongValueError(Error):
     pass
 
 
@@ -33,7 +33,7 @@ def decorator_exceptions(func):
         try:
             result_func = func(*args, **kwargs)
 
-        except (WrongRequestError, WrongLenListError, WrongNumSignError) as custom_err:
+        except (WrongRequestError, WrongLenListError, WrongNumSignError, WrongValueError) as custom_err:
             print(f'\nОШИБКА. {custom_err}')
 
         except ConnectionError as connect_err:
@@ -48,9 +48,6 @@ def decorator_exceptions(func):
         except JSONDecodeError:
             print('\nОШИБКА. Невозможно декодировать полученный ответ, повторите запрос.')
 
-        except ValueError:
-            print('\nОШИБКА. Не удалось преобразовать строку в число. Введите целое неотрицательное число.')
-
         except FileNotFoundError:
             print('\nОШИБКА. Данный файл или каталог отсутствует. Сделайте запрос и повторите команду.')
 
@@ -60,7 +57,7 @@ def decorator_exceptions(func):
         except KeyboardInterrupt:
             print('\nПринудительное прерывание программы.\nПожалуйста, попробуйте еще раз.')
 
-        except WrongLoopBreak:
+        except StopIteration:
             pass
 
         except Exception as exception:

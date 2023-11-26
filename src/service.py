@@ -3,23 +3,25 @@ import datetime
 from enum import Enum
 from typing import Any
 from src.API import get_request_weather_from_city, get_city_by_ip, check_request_status
-from src.Exceptions import decorator_exceptions, WrongNumSignError
-from src.interface import print_current_weather, print_history_to_console
-from src.file_management import save_current_weather_to_history, create_or_clear_csv_file
+from src.Exceptions import decorator_exceptions, WrongNumSignError, WrongValueError
+from src.printer import print_current_weather, print_history_to_console
+from src.storage import save_current_weather_to_history, create_or_clear_csv_file
 from src.class_Weather import Weather
 from src.msg_for_user import (SELECT_CITY,
                               TEXT_FOR_INT_ERROR,
                               TEXT_FOR_SIGN_ERROR,
                               SELECT_NUM_REQUESTS,
-                              TEXT_FOR_ZERO_ERROR)
+                              TEXT_FOR_ZERO_ERROR,
+                              THANK_YOU, CLEAR_HISTORY, NOT_CORRECT_VALUE)
 
 
-class Commands(Enum):
+class Command(Enum):
     WEATHER_BY_MYSELF = '1'
     WEATHER_BY_CITY = '2'
     SHOW_HISTORY_REQUESTS_WEATHER = '3'
     CLEAR_HISTORY_REQUESTS_WEATHER = '4'
     EXIT_FROM_PROGRAM = '5'
+    NOT_CORRECT_INPUT = None
 
 
 def adapt_response_time_to_local_time(dict_response: dict[str, Any]) -> datetime:
@@ -80,7 +82,10 @@ def get_weather_from_city(city) -> None:
 @decorator_exceptions
 def show_history_requests() -> None:
     """ Функция возвращает словарь с данными об актуальной погоде, получая информацию из необработанного словаря."""
-    num_requests = float(input(SELECT_NUM_REQUESTS).strip())
+    try:
+        num_requests = float(input(SELECT_NUM_REQUESTS).strip())
+    except ValueError:
+        raise WrongValueError('Не удалось преобразовать строку в число. Введите целое неотрицательное число.')
 
     if num_requests <= 0:
         if num_requests < 0:
@@ -89,17 +94,30 @@ def show_history_requests() -> None:
             print(TEXT_FOR_ZERO_ERROR)
 
     if not num_requests.is_integer():
-        raise WrongNumSignError(TEXT_FOR_INT_ERROR)
-
-    if not num_requests.is_integer():
-        raise WrongNumSignError(TEXT_FOR_INT_ERROR)
+        raise WrongValueError(TEXT_FOR_INT_ERROR)
 
     print_history_to_console(int(num_requests))
 
 
+def end_use_program():
+    print(THANK_YOU)
+    raise StopIteration
+
+
+def clear_csv():
+    create_or_clear_csv_file()
+    print(CLEAR_HISTORY)
+
+
+def not_correct_input():
+    print(NOT_CORRECT_VALUE)
+
+
 ACTION_MAP = {
-    Commands.WEATHER_BY_MYSELF.value: action_weather_by_myself,
-    Commands.WEATHER_BY_CITY.value: action_weather_by_city,
-    Commands.SHOW_HISTORY_REQUESTS_WEATHER.value: show_history_requests,
-    Commands.CLEAR_HISTORY_REQUESTS_WEATHER.value: create_or_clear_csv_file
+    Command.WEATHER_BY_MYSELF.value: action_weather_by_myself,
+    Command.WEATHER_BY_CITY.value: action_weather_by_city,
+    Command.SHOW_HISTORY_REQUESTS_WEATHER.value: show_history_requests,
+    Command.CLEAR_HISTORY_REQUESTS_WEATHER.value: clear_csv,
+    Command.EXIT_FROM_PROGRAM.value: end_use_program,
+    Command.NOT_CORRECT_INPUT.value: not_correct_input
 }

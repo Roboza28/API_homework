@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from src.file_management import get_info_from_csv_to_list
+from src.storage import get_info_from_csv_to_list
 
 
 def print_current_weather(current_weather_information: dict) -> None:
