@@ -44,7 +44,7 @@ def check_file_for_empty(path_to_file: str) -> bool:
 
 def create_or_clear_csv_file() -> None:
     """ Функция создает пустой csv файл по указанному в настройках пути. """
-    with open(PATH_TO_CSV_LOG_FILE, 'w+'):
+    with open(PATH_TO_CSV_LOG_FILE, 'w+', encoding=USER_ENCODING):
         pass
 
 
@@ -56,7 +56,7 @@ def save_current_weather_to_history(current_weather_information: dict) -> None:
     """
     field_names_in_csv = current_weather_information.keys()
 
-    with open(PATH_TO_CSV_LOG_FILE, 'a', newline='') as csv_file:
+    with open(PATH_TO_CSV_LOG_FILE, 'a', newline='', encoding=USER_ENCODING) as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=field_names_in_csv, delimiter=';')
         if check_file_for_empty(PATH_TO_CSV_LOG_FILE):
             writer.writeheader()
